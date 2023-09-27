@@ -1,0 +1,4 @@
+/*
+    Event Routes
+    /api/events
+*/
