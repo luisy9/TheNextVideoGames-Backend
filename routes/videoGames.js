@@ -3,12 +3,12 @@
     /api/videoGames
 */
 
-const { Router } = require('express');
-const { check } = require('express-validator');
-const { validarCampos } = require('../middlewares/validar-campos');
-const { createVideogame, getVideoGames } = require('../controllers/videoGames');
+const { Router } = require('express')
+const { check } = require('express-validator')
+const { validarCampos } = require('../middlewares/validar-campos')
+const { createVideogame, getVideoGames, getVideoGame } = require('../controllers/videoGames')
 
-const router = Router();
+const router = Router()
 
 router.post(
   '/newVideoGames',
@@ -25,23 +25,24 @@ router.post(
     check('nombre_tematica', 'El nombre de la tematica es requerido')
       .not()
       .isEmpty(),
-    validarCampos,
+    validarCampos
   ],
   createVideogame
-);
-
-// router.post('/newPlataform', [
-//   check('name', 'Name is required').not().isEmpty(),
-//   check('img', 'img is required').not().isEmpty(),
-// ]);
+)
 
 router.post(
   '/getVideoGames',
   [
     check('nombre_plataform', 'nombre_plataform is required').not().isEmpty(),
-    validarCampos,
+    validarCampos
   ],
   getVideoGames
-);
+)
 
-module.exports = router;
+router.post(
+  '/getVideoGame',
+  [check('idvideogame').not().isEmpty(), validarCampos],
+  getVideoGame
+)
+
+module.exports = router

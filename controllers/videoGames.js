@@ -1,5 +1,5 @@
-const { response } = require('express');
-const { connection } = require('../database/conection');
+const { response } = require('express')
+const { connection } = require('../database/conection')
 
 const createVideogame = (req, res = response) => {
   const {
@@ -8,80 +8,94 @@ const createVideogame = (req, res = response) => {
     description_videogames,
     precio_videogames,
     nombre_plataform,
-    nombre_tematica,
-  } = req.body;
+    nombre_tematica
+  } = req.body
 
   const newVideoGames = {
-    name_videogames: name_videogames,
-    description_videogames: description_videogames,
-    img_videogame: img_videogame,
-    precio_videogames: precio_videogames,
-    nombre_plataform: nombre_plataform,
-    nombre_tematica: nombre_tematica,
-  };
+    name_videogames,
+    description_videogames,
+    img_videogame,
+    precio_videogames,
+    nombre_plataform,
+    nombre_tematica
+  }
 
   try {
     connection.query(
-      `INSERT INTO videogames SET ?`,
+      'INSERT INTO videogames SET ?',
       [newVideoGames],
       async (error, result) => {
         console.log(error)
         if (error) {
           return res.status(400).json({
             ok: false,
-            msg: 'No se ha podido insertar',
-          });
+            msg: 'No se ha podido insertar'
+          })
         }
 
         if (result.affectedRows > 0) {
           return res.status(201).json({
-            name_videogames: name_videogames,
-            description_videogames: description_videogames,
-            precio_videogames: precio_videogames,
-            nombre_plataform: nombre_plataform,
-            nombre_tematica: nombre_tematica,
-            msg: 'VideoGame creado correctamente',
-          });
+            name_videogames,
+            description_videogames,
+            precio_videogames,
+            nombre_plataform,
+            nombre_tematica,
+            msg: 'VideoGame creado correctamente'
+          })
         }
       }
-    );
+    )
   } catch (error) {
-    console.log(err);
+    console.log(err)
     return res.status(400).json({
-      message: 'Error con el insert el videogame',
-    });
+      message: 'Error con el insert el videogame'
+    })
   }
-};
+}
 
 const getVideoGames = async (req, res = response) => {
-  const { nombre_plataform } = req.body;
-  console.log(nombre_plataform);
+  const { nombre_plataform } = req.body
 
-  try{
-    connection.query('SELECT * FROM videogames WHERE nombre_plataform = ?',[nombre_plataform], 
-    async (error, results) => {
-      if(error){
-        return res.status(500).json({
-          ok: false,
-          msg:'Hubo un error al obtener los videojuegos'
-        })
+  try {
+    connection.query(
+      'SELECT * FROM videogames WHERE nombre_plataform = ?',
+      [nombre_plataform],
+      async (error, results) => {
+        if (error) {
+          return res.status(500).json({
+            ok: false,
+            msg: 'Hubo un error al obtener los videojuegos'
+          })
+        }
+
+        if (results.length > 0) {
+          return res.status(200).json({
+            ok: true,
+            result: results
+          })
+        }
       }
-      
-      if(results.length > 0){
-        return res.status(200).json({
-          ok: true,
-          result: results
-        })  
-      }
-    })
-  }catch (err) {
-    console.log(err);
+    )
+  } catch (err) {
+    console.log(err)
     return res.status(500).json({
       ok: false,
       msg: err.message
-    })  
+    })
   }
-
 }
 
-module.exports = { createVideogame, getVideoGames };
+const getVideoGame = async (req, res = response) => {
+  const { idvideogame } = req.body
+  console.log(idvideogame);
+  try {
+  } catch (err) {
+    console.log(err)
+    return res.status(500).json({
+      ok: false,
+      msg: 'Error en la busqueda del videojuego'
+    })
+  }
+}
+
+module.exports = { createVideogame, getVideoGames, getVideoGame}

@@ -17,5 +17,4 @@
 //     }
 // });
 
-
 // module.exports = model('Usuario', UsuarioSchema );

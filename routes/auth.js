@@ -3,14 +3,18 @@
      host + /api/auth
 */
 
-const { Router } = require('express');
-const { check } = require('express-validator');
-const { validarCampos } = require('../middlewares/validar-campos');
-const { createUser, getUsers, revalidarToken, loginUsuario } = require('../controllers/auth');
-const { validarJWT } = require('../middlewares/validar-jwt');
+const { Router } = require('express')
+const { check } = require('express-validator')
+const { validarCampos } = require('../middlewares/validar-campos')
+const {
+  createUser,
+  getUsers,
+  revalidarToken,
+  loginUsuario
+} = require('../controllers/auth')
+const { validarJWT } = require('../middlewares/validar-jwt')
 
-const router = Router();
-
+const router = Router()
 
 router.post(
   '/new',
@@ -18,20 +22,20 @@ router.post(
     check('name', 'El nombre es obligatorio').not().isEmpty(),
     check('email', 'El email es obligatorio').isEmail(),
     check('password', 'El password debe ser de 6 caracteres').isLength({
-      min: 6,
+      min: 6
     }),
     validarCampos
   ],
   createUser
-);
+)
 
-router.post('/get', [
-  check('email', 'El email es obligatorio').isEmail(),
-  validarCampos
-], 
-getUsers)
+router.post(
+  '/get',
+  [check('email', 'El email es obligatorio').isEmail(), validarCampos],
+  getUsers
+)
 
-router.get('/renew', validarJWT , revalidarToken );
+router.get('/renew', validarJWT, revalidarToken)
 // router.post(
 //     '/new',
 //     [ // middlewares
@@ -44,13 +48,15 @@ router.get('/renew', validarJWT , revalidarToken );
 // );
 
 router.post(
-    '/',
-    [
-        check('email', 'El email es obligatorio').isEmail(),
-        check('password', 'El password debe de ser de 6 caracteres').isLength({ min: 6 }),
-        validarCampos
-    ],
-    loginUsuario
-);
+  '/',
+  [
+    check('email', 'El email es obligatorio').isEmail(),
+    check('password', 'El password debe de ser de 6 caracteres').isLength({
+      min: 6
+    }),
+    validarCampos
+  ],
+  loginUsuario
+)
 
-module.exports = router;
+module.exports = router

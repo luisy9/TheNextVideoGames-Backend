@@ -7,7 +7,7 @@
 //         required: true
 //     },
 //     notes: {
-//         type: String,        
+//         type: String,
 //     },
 //     start: {
 //         type: Date,
@@ -31,7 +31,4 @@
 //     return object;
 // });
 
-
-
 // module.exports = model('Evento', EventoSchema );
-
